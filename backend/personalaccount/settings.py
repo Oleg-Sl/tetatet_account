@@ -1,10 +1,15 @@
 
 from pathlib import Path
+import datetime
+from dotenv import read_dotenv
+import os
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-+@w@-j=g@bpwmot86p5bgq0n*q5hk%voswpzdmj#$_p-2!+l9b'
+read_dotenv(BASE_DIR)
+
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 DEBUG = True
 
@@ -25,6 +30,7 @@ INSTALLED_APPS = [
 
     'api_v1',
     'accountapp',
+    'authapp',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +66,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
 }
 
 WSGI_APPLICATION = 'personalaccount.wsgi.application'
@@ -71,6 +83,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+AUTH_USER_MODEL = 'authapp.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,3 +113,37 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# DOMAIN_NAME = 'http://localhost:8000'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = '25'
+# EMAIL_HOST_USER = 'admin@tetatet.local'
+# EMAIL_HOST_PASSWORD = 'qwerty123'
+# EMAIL_USE_SSL = False
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = 'tmp/email-messages/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=300),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=3),
+    'ROTATE_REFRESH_TOKENS': True,
+}
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '/api/v1/auth/users/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '/api/v1/auth/users/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+
+    'LOGIN_FIELD': 'email',
+    'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
+}
