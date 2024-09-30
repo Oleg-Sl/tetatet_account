@@ -1,7 +1,9 @@
 import React from 'react';
-import './input.css'
 
-const Input = (props) => {
+import './Input.css'
+
+
+export default function Input(props) {
     return (
         <input onChange={(event)=> props.setValue(event.target.value)}
                value={props.value}
@@ -12,5 +14,3 @@ const Input = (props) => {
                />
     );
 };
-
-export default Input;
