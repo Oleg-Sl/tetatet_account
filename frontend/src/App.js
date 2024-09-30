@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App container-fluid align-items-center">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from "./components/Login/Login";
+import Registration from "./components/Registration/Registration";
 
-export default App;
+export default function App() {
+    return (
+        <div class="container d-flex justify-content-center">
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/registration" element={<Registration />} />
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
+}
