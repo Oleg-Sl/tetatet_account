@@ -1,11 +1,10 @@
-
-from pathlib import Path
-import datetime
-from dotenv import read_dotenv
 import os
+import datetime
+from pathlib import Path
+from dotenv import read_dotenv
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 read_dotenv(BASE_DIR)
 
@@ -13,7 +12,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -77,10 +76,20 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'personalaccount.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -114,22 +123,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# DOMAIN_NAME = 'http://localhost:8000'
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = '25'
-# EMAIL_HOST_USER = 'admin@tetatet.local'
-# EMAIL_HOST_PASSWORD = 'qwerty123'
-# EMAIL_USE_SSL = False
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = 'tmp/email-messages/'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
-EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
-EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
+DOMAIN_NAME = 'http://localhost:8000'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = 'admin@tetatet.local'
+EMAIL_HOST_PASSWORD = 'qwerty123'
+EMAIL_USE_SSL = False
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/email-messages/'
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
@@ -142,7 +143,7 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '/api/v1/auth/users/password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': '/api/v1/auth/users/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_ACTIVATION_EMAIL': False,
 
     'LOGIN_FIELD': 'email',
     'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
