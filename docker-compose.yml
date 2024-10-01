@@ -10,22 +10,14 @@ services:
     depends_on:
       - pgdb
 
-  # db:
-  #   image: postgres
-  #   environment:
-  #     - POSTGRES_DB=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #   container_name: db
-  #   volumes:
-  #     - dbdata:/var/lib/postgresql/data/
+
   pgdb:
     image: postgres:alpine
     container_name: postgres
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres1_data:/var/lib/postgresql/data
     environment:
       POSTGRES_NAME: postgres
       POSTGRES_USER: postgres
@@ -42,4 +34,4 @@ services:
       - backend
 
 volumes:
-  postgres_data:
+  postgres1_data:

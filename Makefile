@@ -12,6 +12,6 @@ migrate:
 	docker compose run backend python manage.py migrate
 
 cleandb:
-	docker volume rm tetatet_account_pgdb
+	docker volume rm tetatet_account_postgres_data
 
 # docker exec -it backend sh
