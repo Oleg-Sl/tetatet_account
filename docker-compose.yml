@@ -33,6 +33,7 @@ services:
       - ./frontend:/src
     depends_on:
       - backend
+    command: ["npm", "start"]
 
 volumes:
   postgres2_data:
