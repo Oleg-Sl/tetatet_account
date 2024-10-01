@@ -11,7 +11,6 @@ import TaskList from "./components/TaskList/TaskList";
 import {Context} from "./index";
 
 
-
 function App() {
     const [loading, setLoading] = useState(true);
 

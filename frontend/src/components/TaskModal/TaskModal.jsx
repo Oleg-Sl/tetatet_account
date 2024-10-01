@@ -42,17 +42,17 @@ export default function TaskModal(props) {
 
                     <div className="mb-3">
                         <label htmlFor="description" className="form-label">Описание</label>
-                        <Input value={props?.task?.description || ''} setValue={(value) => updateTaskField(value, 'description')} type="text" id="description" className="form-control" placeholder="Введите описание"/>
+                        <textarea className="form-control" id="description" rows="3" value={props?.task?.description || ''} onChange={(event) => updateTaskField(event.target.value, 'description')}></textarea>
                     </div>
 
                     <div className="mb-3">
                         <label htmlFor="status" className="form-label">Статус</label>
-                        <Select value={props?.task?.status || 'not_completed'} setValue={(value) => updateTaskField(value, 'status')} id="status" className="form-control" options={props?.statusChoices} />
+                        <Select value={props?.task?.status || ''} setValue={(value) => updateTaskField(value, 'status')} id="status" className="form-control" options={props?.statusChoices} />
                     </div>
 
                     <div className="mb-3">
                         <label htmlFor="priority" className="form-label">Приоритет</label>
-                        <Select value={props?.task?.priority || 'low'} setValue={(value) => updateTaskField(value, 'priority')} id="priority" className="form-control" options={props?.priorityChoices} />
+                        <Select value={props?.task?.priority || ''} setValue={(value) => updateTaskField(value, 'priority')} id="priority" className="form-control" options={props?.priorityChoices} />
                     </div>
 
                     <div className="mb-3">

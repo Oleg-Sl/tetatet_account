@@ -10,6 +10,7 @@ import PaginationRanges from '../common/Pagination/Pagination';
 
 
 export default function TaskList() {
+    const pageSize = 4;
     const [tasks, setTasks] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currentTask, setCurrentTask] = useState(null);
@@ -24,20 +25,26 @@ export default function TaskList() {
 
     useEffect(() => {
         const fetchTasks = async () => {
-            const result = await TaskService.getTasks({priority, status, page});
+            const result = await TaskService.getTasks({priority, status, page, page_size:pageSize});
             const resultMeta = await TaskService.getMetaTaskData();
             console.log('data = ', result?.data);
             setPriorityChoices(resultMeta?.data?.actions?.POST?.priority?.choices || []);
             setStatusChoices(resultMeta?.data?.actions?.POST?.status?.choices || []);
-            setPagesQty(result?.data?.count - 1);
+            console.log(result?.data?.count, pageSize)
+            setPagesQty(Math.ceil(result?.data?.count / pageSize));
             setTasks(result?.data?.results || []);
         };
         fetchTasks();
     }, [priority, status, page]);
 
-    const openModal = (currentModalTask, task={}) => {
+    const openModal = async (currentModalTask, taskId=null) => {
+        let currentTask = {};
+        if (taskId) {
+            const taskData = await TaskService.getTask(taskId);
+            currentTask = taskData?.data;
+        }
         setModalTitle(currentModalTask);
-        setCurrentTask(task);
+        setCurrentTask(currentTask);
         setModalIsOpen(true);
     }
 
@@ -48,11 +55,12 @@ export default function TaskList() {
 
     const onSaveTask = async (newDataTask) => {
         try {
+            console.log('newDataTask = ', newDataTask);
             let updatedTasks = [];
             if (newDataTask.id) {
                 const updatedTask = await TaskService.updateTask(newDataTask);
                 console.log('updatedTask = ', updatedTask);
-                updatedTasks = tasks.map(task => task.id === updatedTask.id ? Object.assign({}, updatedTask) : task);
+                updatedTasks = tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
             } else {
                 const createdTask = await TaskService.createTask(newDataTask);
                 console.log('createdTask = ', createdTask);
@@ -80,14 +88,6 @@ export default function TaskList() {
         }
     }
 
-    const getPriorityTitle = (priority) => {
-        return priorityChoices.find(choice => choice.value === priority)?.display_name;
-    }
-
-    const getStatusTitle = (stat) => {
-        return statusChoices.find(choice => choice.value === stat)?.display_name;
-    }
-
     return (
         <>
             <div className="d-flex flex-column w-100">
@@ -99,10 +99,10 @@ export default function TaskList() {
                 <div className="task-container">
                     {tasks.map((task) => (
                         <Task key={task.id} task={task}
-                            onEdit={() => openModal('Редактировать задачу', task)}
+                            onEdit={() => openModal('Редактировать задачу', task?.id)}
                             onDelete={() => onDeleteTask(task.id)}
-                            priorityTitle={getPriorityTitle(task.priority)}
-                            statusTitle={getStatusTitle(task.status)}
+                            priorityChoices={priorityChoices}
+                            statusChoices={statusChoices}
                         />
                     ))}
                 </div>

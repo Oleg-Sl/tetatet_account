@@ -40,7 +40,7 @@ def api_root(request, format=None):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
     pagination_class = CustomPageNumberPagination

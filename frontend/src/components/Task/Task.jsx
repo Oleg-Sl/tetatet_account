@@ -27,12 +27,21 @@ export default function Task(props) {
     
         return `${day} ${month} ${year}, ${hours}:${minutes}`;
     }
-    
+
+
+    const getPriorityTitle = (priority, priorityChoices) => {
+        return priorityChoices.find(choice => choice.value === priority)?.display_name;
+    }
+
+    const getStatusTitle = (stat, statusChoices) => {
+        return statusChoices.find(choice => choice.value === stat)?.display_name;
+    }
+
     return (
         <div className="p-3 mb-3 border-1 rounded bg-light bg-body-tertiary shadow task-card">
             <div className="d-flex justify-content-between align-items-center mb-3 task-header">
                 <div><h3 className="m-0 task-title">{props?.task?.title || ''}</h3></div>
-                <div><span className="badge bg-danger rounded-5 p-2 fs-6 task-status">{props?.statusTitle}</span></div>
+                <div><span className="badge bg-danger rounded-5 p-2 fs-6 task-status">{getStatusTitle(props.task?.status, props.statusChoices)}</span></div>
             </div>
 
             <div className="mb-3">
@@ -42,7 +51,7 @@ export default function Task(props) {
                 </div>
                 <div className="mb-2">
                     <strong>Приоритет:&nbsp;</strong>
-                    <span className="badge bg-warning rounded-1 p-1 task-priority">{props?.priorityTitle}</span>
+                    <span className="badge bg-warning rounded-1 p-1 task-priority">{getPriorityTitle(props.task?.priority, props.priorityChoices)}</span>
                 </div>
                 <div className="text-body-secondary task-deadline-container">
                     <strong>Дедлайн:&nbsp;</strong>
