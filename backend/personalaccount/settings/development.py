@@ -10,6 +10,8 @@ read_dotenv(BASE_DIR)
 
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
+CLIENT_SERVICE_URL = str(os.getenv('CLIENT_SERVICE_URL'))
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
@@ -84,15 +86,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         # 'HOST': 'db',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
+#         'NAME': str(os.getenv('DB_NAME')),
+#         'USER': str(os.getenv('DB_USER')),
+#         'PASSWORD': str(os.getenv('DB_PASSWORD')),
+#         'HOST': str(os.getenv('DB_HOST')),
+#         'PORT': str(os.getenv('DB_PORT')),
 #     }
 # }
 

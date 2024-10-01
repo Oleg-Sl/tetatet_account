@@ -60,9 +60,4 @@ class UserActivationView(APIView):
         post_url = web_url + "/api/v1/auth/users/activation/"
         post_data = {'uid': uid, 'token': token}
         result = requests.post(post_url, data = post_data)
-        if result.status_code == 204:
-            # return Response(status=status.HTTP_204_NO_CONTENT)
-            return redirect('http://localhost:3000/')
-
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
+        return redirect(settings.CLIENT_SERVICE_URL)

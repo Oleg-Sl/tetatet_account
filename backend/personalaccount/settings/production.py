@@ -10,6 +10,8 @@ read_dotenv(BASE_DIR)
 
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
+CLIENT_SERVICE_URL = str(os.getenv('CLIENT_SERVICE_URL'))
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
@@ -96,17 +98,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'pgdb',
-#         # 'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
 AUTH_USER_MODEL = 'authapp.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
