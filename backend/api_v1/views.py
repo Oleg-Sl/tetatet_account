@@ -24,12 +24,12 @@ class CustomPageNumberPagination(PageNumberPagination):
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'register': reverse('api_v1:user-list', request=request, format=format),
-        'activation': reverse('api_v1:user-activation', request=request, format=format),
-        'resend_activation': reverse('api_v1:user-resend-activation', request=request, format=format),
-        'password reset': reverse('api_v1:user-reset-password', request=request, format=format),
-        'password set': reverse('api_v1:user-set-password', request=request, format=format),
-        'reset password confirm': reverse('api_v1:user-reset-password-confirm', request=request, format=format),
+        'register': reverse('api_v1:customuser-list', request=request, format=format),
+        'activation': reverse('api_v1:customuser-activation', request=request, format=format),
+        'resend_activation': reverse('api_v1:customuser-resend-activation', request=request, format=format),
+        'password reset': reverse('api_v1:customuser-reset-password', request=request, format=format),
+        'password set': reverse('api_v1:customuser-set-password', request=request, format=format),
+        'reset password confirm': reverse('api_v1:customuser-reset-password-confirm', request=request, format=format),
 
         'token create': reverse('api_v1:jwt-create', request=request, format=format),
         'token refresh': reverse('api_v1:jwt-refresh', request=request, format=format),

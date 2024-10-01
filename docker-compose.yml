@@ -2,7 +2,8 @@ services:
   backend:
     build: ./backend
     container_name: backend
-    command: python manage.py runserver 0.0.0.0:8000
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/usr/src/app
     ports:
@@ -17,7 +18,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres1_data:/var/lib/postgresql/data
+      - postgres2_data:/var/lib/postgresql/data
     environment:
       POSTGRES_NAME: postgres
       POSTGRES_USER: postgres
@@ -34,4 +35,4 @@ services:
       - backend
 
 volumes:
-  postgres1_data:
+  postgres2_data:

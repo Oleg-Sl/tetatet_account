@@ -96,7 +96,7 @@ DATABASES = {
 #     }
 # }
 
-AUTH_USER_MODEL = 'authapp.User'
+AUTH_USER_MODEL = 'authapp.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
