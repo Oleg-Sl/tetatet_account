@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'djoser',
     'django_filters',
+    'corsheaders',
 
     'api_v1',
     'accountapp',
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,13 +78,35 @@ REST_FRAMEWORK = {
 
 WSGI_APPLICATION = 'personalaccount.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': str(os.getenv('DB_NAME')),
+#         'USER': str(os.getenv('DB_USER')),
+#         'PASSWORD': str(os.getenv('DB_PASSWORD')),
+#         'HOST': str(os.getenv('DB_HOST')),
+#         'PORT': str(os.getenv('DB_PORT')),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'pgdb',
+        # 'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
-
 AUTH_USER_MODEL = 'authapp.User'
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -113,7 +137,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = str(os.getenv('EMAIL_HOST'))

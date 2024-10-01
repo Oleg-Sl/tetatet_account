@@ -29,10 +29,10 @@ export default function Task(props) {
     }
     
     return (
-        <div className="p-3 mb-3 border-0 rounded bg-light bg-body-tertiary shadow task-card">
+        <div className="p-3 mb-3 border-1 rounded bg-light bg-body-tertiary shadow task-card">
             <div className="d-flex justify-content-between align-items-center mb-3 task-header">
                 <div><h3 className="m-0 task-title">{props?.task?.title || ''}</h3></div>
-                <div><span className="badge bg-danger rounded-5 p-2 fs-6 task-status">Не выполнена</span></div>
+                <div><span className="badge bg-danger rounded-5 p-2 fs-6 task-status">{props?.statusTitle}</span></div>
             </div>
 
             <div className="mb-3">
@@ -42,7 +42,7 @@ export default function Task(props) {
                 </div>
                 <div className="mb-2">
                     <strong>Приоритет:&nbsp;</strong>
-                    <span className="badge bg-warning rounded-1 p-1 task-priority">{props?.task?.priority}</span>
+                    <span className="badge bg-warning rounded-1 p-1 task-priority">{props?.priorityTitle}</span>
                 </div>
                 <div className="text-body-secondary task-deadline-container">
                     <strong>Дедлайн:&nbsp;</strong>
@@ -52,7 +52,7 @@ export default function Task(props) {
 
             <div className="d-flex justify-content-end">
                 <button className="btn btn-success" onClick={props.onEdit}>Редактировать</button>
-                <button className="btn btn-danger ms-3">Удалить</button>
+                <button className="btn btn-danger ms-3" onClick={props.onDelete}>Удалить</button>
             </div>
         </div>
     );

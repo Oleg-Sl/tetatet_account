@@ -18,6 +18,11 @@ export default function TaskModal(props) {
         }));
     }
 
+    const onSaveSubmit = (event) => {
+        event.preventDefault();
+        props.onSave(props.task);
+    }
+
     return (
         <Modal
             isOpen={props.isOpen}
@@ -27,7 +32,7 @@ export default function TaskModal(props) {
         >
            <div className="task-form-container">
                 <div className="d-flex justify-content-center">
-                    <h3>Создать задачу</h3>
+                    <h3>{props?.title}</h3>
                 </div>
                 <form>
                     <div className="mb-3">
@@ -42,19 +47,12 @@ export default function TaskModal(props) {
 
                     <div className="mb-3">
                         <label htmlFor="status" className="form-label">Статус</label>
-                        <Select value={props?.task?.status || 'not_completed'} setValue={(value) => updateTaskField(value, 'status')} id="status" className="form-control" options={[
-                            {value: "not_completed", label: "Не выполнена"},
-                            {value: "completed", label: "Выполнена"}
-                        ]} />
+                        <Select value={props?.task?.status || 'not_completed'} setValue={(value) => updateTaskField(value, 'status')} id="status" className="form-control" options={props?.statusChoices} />
                     </div>
 
                     <div className="mb-3">
                         <label htmlFor="priority" className="form-label">Приоритет</label>
-                        <Select value={props?.task?.priority || 'low'} setValue={(value) => updateTaskField(value, 'priority')} id="priority" className="form-control" options={[
-                            {value: "high", label: "Высокий"},
-                            {value: "medium", label: "Средний"},
-                            {value: "low", label: "Низкий"}
-                        ]} />
+                        <Select value={props?.task?.priority || 'low'} setValue={(value) => updateTaskField(value, 'priority')} id="priority" className="form-control" options={props?.priorityChoices} />
                     </div>
 
                     <div className="mb-3">
@@ -62,8 +60,20 @@ export default function TaskModal(props) {
                         <Input value={props?.task?.deadline || ''} setValue={(value) => updateTaskField(value, 'deadline')} type="datetime-local" id="deadline" className="form-control" placeholder="Введите дедлайн"/>
                     </div>
 
+                    <div>
+                        {props.messagesList && (
+                            <div className="alert alert-danger">
+                                <ul>
+                                    {props.messagesList.map((message, index) => (
+                                        <li key={index}> - {message}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                    
                     <div className="d-grid gap-2 mb-3">
-                        <button type="submit" className="btn btn-primary" onClick={() => props.onSave(props.task)}>Сохранить</button>
+                        <button type="submit" className="btn btn-primary" onClick={onSaveSubmit}>Сохранить</button>
                         <button type="button" className="btn btn-danger" onClick={props.onClose}>Отменить</button>
                     </div>
                 </form>
